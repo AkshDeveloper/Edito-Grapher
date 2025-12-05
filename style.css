@@ -78,6 +78,16 @@
       overflow: hidden;
     }
 
+    /* Gradient title styling for about page and other headings */
+    .gradient-title {
+      font-family: "Bebas Neue", sans-serif;
+      letter-spacing: 1px;
+      background: var(--gradient);
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 0;
+    }
+
     .navbar {
       display: flex;
       align-items: center;
@@ -276,6 +286,10 @@
     }
 
     /* Hero Section with Slideshow */
+    .hero span, #profile span, .about-section span {
+      color: var(--accent);
+    }
+
     .hero {
       padding: 6rem 0 4rem;
       text-align: center;
@@ -558,7 +572,7 @@
 
     .testimonial-text {
       font-style: italic;
-      margin-bottom: 1.5rem;
+      margin: 2.5rem 0;
       position: relative;
       line-height: 1.8;
     }
@@ -568,7 +582,7 @@
       font-size: 3rem;
       color: var(--accent);
       position: absolute;
-      top: -1.5rem;
+      top: -3rem;
       left: -0.5rem;
       opacity: 0.3;
       font-family: serif;

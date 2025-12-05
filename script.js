@@ -90,7 +90,7 @@ if (contactForm) {
     const emailBody = `Name: ${name}%0D%0A%0D%0AMessage:%0D%0A${message}`;
     
     // Open default email client
-    window.location.href = `mailto:nishant.singh@example.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
+    window.location.href = `mailto:Arvind90782@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
     
     // Show confirmation
     alert('Opening your email client... Please send the pre-filled email to contact us.');
@@ -337,7 +337,7 @@ if (projectForm) {
     
     // Business contact destinations
     const BUSINESS_WHATSAPP = '919277072409'; // international format without '+' for wa.me
-    const BUSINESS_EMAIL = 'nishant.singh@example.com';
+    const BUSINESS_EMAIL = 'Arvind90782@gmail.com';
 
     // Handle WhatsApp submission -> open business WhatsApp with pre-filled message
     if (contactMethod === 'whatsapp') {
