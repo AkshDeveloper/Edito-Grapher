@@ -304,3 +304,61 @@ window.addEventListener('resize', function() {
     });
   }
 });
+// (Old project form handler removed - replaced by updated handler below)
+
+// Update contact method selection — no client input for business contact
+function updateContactFields() {
+  // The form no longer asks clients to input the business WhatsApp or email.
+  // Selecting a method simply decides which business channel we'll open on submit.
+  return;
+}
+
+// Project Submission Form Handler - UPDATED
+const projectForm = document.getElementById('projectForm');
+if (projectForm) {
+  projectForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Get form data
+    const name = this.querySelector('input[name="name"]').value;
+    const contactMethod = this.querySelector('select[name="contactMethod"]').value;
+    const projectType = this.querySelector('select[name="projectType"]').value;
+    const footageLink = this.querySelector('input[name="footageLink"]').value;
+    const instructions = this.querySelector('textarea[name="instructions"]').value;
+    
+    // Basic validation
+    if (!contactMethod) {
+      alert('Please select a contact method (WhatsApp or Email) so we can open the correct channel.');
+      return;
+    }
+
+    // Create message body
+    const emailBody = `Hello,\n\nNew project submission:\n\nClient Name: ${name}\nProject Type: ${projectType}\nRaw Footage Link: ${footageLink}\n\nSpecial Instructions:\n${instructions}\n\nPlease review this project and get back to the client.\n\nThanks!`;
+    
+    // Business contact destinations
+    const BUSINESS_WHATSAPP = '919277072409'; // international format without '+' for wa.me
+    const BUSINESS_EMAIL = 'nishant.singh@example.com';
+
+    // Handle WhatsApp submission -> open business WhatsApp with pre-filled message
+    if (contactMethod === 'whatsapp') {
+      const whatsappMessage = encodeURIComponent(`Hello Nishant,\n\nI submitted a project:\n\nClient Name: ${name}\nProject Type: ${projectType}\nRaw Footage Link: ${footageLink}\n\nInstructions:\n${instructions}`);
+      window.open(`https://wa.me/${BUSINESS_WHATSAPP}?text=${whatsappMessage}`, '_blank');
+      alert('Opening WhatsApp to contact Edito Grapher...');
+    }
+
+    // Handle Email submission -> open email client addressed to business
+    else if (contactMethod === 'email') {
+      const emailSubject = encodeURIComponent(`New Project Submission from ${name}`);
+      window.location.href = `mailto:${BUSINESS_EMAIL}?subject=${emailSubject}&body=${encodeURIComponent(emailBody)}`;
+      alert('Opening your email client to message Edito Grapher...');
+    }
+
+    // Reset form after a delay
+    setTimeout(() => {
+      this.reset();
+      // clear selection
+      const methodEl = document.getElementById('contactMethod');
+      if (methodEl) methodEl.value = '';
+    }, 1000);
+  });
+}

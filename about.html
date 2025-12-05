@@ -132,9 +132,61 @@
         
         <div class="about-cta">
           <h3>Ready to Elevate Your Content?</h3>
-          <p>Our goal is simple: Make your content look premium, modern, and impactful. Whether you're a creator, influencer, brand, or business — Edito Grapher Agency is your trusted partner for professional editing and standout visual content.</p>
+          <p>Our goal is simple: Make your content look premium, modern, and impactful. Whether you're a creator, influencer, brand, or business — Edito Grapher is your trusted partner for professional editing and standout visual content.</p>
           <a href="index.html#contact" class="btn">Start Your Project</a>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- For Clients Section -->
+  <section id="for-clients" class="section">
+    <div class="container">
+      <h2 class="section-title">For Clients</h2>
+      <p style="text-align: center; margin-bottom: 2rem; color: var(--text);">Submit your project details here and let us bring your vision to life!</p>
+      <div class="project-submission-form">
+        <form id="projectForm">
+          <div class="form-group">
+            <label for="clientName">Name:</label>
+            <input type="text" id="clientName" class="form-input" name="name" placeholder="Your Full Name" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="contactMethod">Contact Method:</label>
+            <select id="contactMethod" class="form-input" name="contactMethod" required onchange="updateContactFields()">
+              <option value="">Select Contact Method</option>
+              <option value="whatsapp">WhatsApp</option>
+              <option value="email">Email</option>
+            </select>
+          </div>
+
+          <!-- Contact method selected will open our WhatsApp or Email; no need for client to enter business contact -->
+          
+          <div class="form-group">
+            <label for="projectType">Project Type:</label>
+            <select id="projectType" class="form-input" name="projectType" required>
+              <option value="">Select Project Type</option>
+              <option value="youtube-video">YouTube Video</option>
+              <option value="reel">Reel</option>
+              <option value="short">Short</option>
+              <option value="thumbnail">Thumbnail</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="rawFootageLink">Raw Footage Link:</label>
+            <input type="url" id="rawFootageLink" class="form-input" name="footageLink" placeholder="https://drive.google.com/..." required>
+          </div>
+          
+          <div class="form-group">
+            <label for="instructions">Instructions / Special Requests:</label>
+            <textarea id="instructions" class="form-input" name="instructions" placeholder="Tell us about your project, style preferences, deadline, etc." rows="5"></textarea>
+          </div>
+          
+          <button type="submit" class="btn">Upload Your Project</button>
+          <p class="form-note">We'll review your project and get back to you within 24 hours</p>
+        </form>
       </div>
     </div>
   </section>
