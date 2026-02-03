@@ -362,3 +362,82 @@ if (projectForm) {
     }, 1000);
   });
 }
+
+
+const shortVideos = document.querySelectorAll("#videos .video");
+const seeMoreBtn = document.querySelector(".see-more-btn");
+const upDownICon = document.querySelector(".fa-caret-down");
+const hideShow = document.querySelector(".hide-show");
+
+let expanded = false;
+const mediaQuery = window.matchMedia("(max-width: 992px)");
+
+function applyToggleLogic() {
+  if (!mediaQuery.matches) {
+    // 🔹 Desktop → show all videos & hide button
+    shortVideos.forEach(video => {
+      video.style.display = "block";
+    });
+    seeMoreBtn.style.display = "none";
+    return;
+  }
+
+  // 🔹 Mobile / Tablet → show only first 3
+  seeMoreBtn.style.display = "flex";
+
+  shortVideos.forEach((video, index) => {
+    video.style.display = index < 3 ? "block" : "none";
+  });
+
+  expanded = false;
+  hideShow.textContent = "See More";
+  upDownICon.classList.remove("fa-caret-up");
+  upDownICon.classList.add("fa-caret-down");
+}
+
+// initial run
+applyToggleLogic();
+
+// button click
+seeMoreBtn.addEventListener("click", () => {
+  if (!mediaQuery.matches) return;
+
+  expanded = !expanded;
+
+  shortVideos.forEach((video, index) => {
+    video.style.display = expanded || index < 3 ? "block" : "none";
+  });
+
+  hideShow.textContent = expanded ? "See Less" : "See More";
+
+  if (expanded) {
+    upDownICon.classList.replace("fa-caret-down", "fa-caret-up");
+  } else {
+    upDownICon.classList.replace("fa-caret-up", "fa-caret-down");
+  }
+});
+
+// re-check on resize
+mediaQuery.addEventListener("change", applyToggleLogic);
+
+// IntersectionObserver short video 1
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach(entry => {
+      const video = entry.target;
+
+      if (entry.isIntersecting) {
+        video.play();
+      } else {
+        video.pause();
+        video.currentTime = 0; // optional: reset
+      }
+    });
+  },
+  {
+    threshold: 0.4 // 60% visible hone par play
+  }
+);
+
+// start observing (index = 0 by default)
+shortVideos.forEach(video => observer.observe(video));
