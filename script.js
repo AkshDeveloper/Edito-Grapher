@@ -102,31 +102,6 @@ if (contactForm) {
   });
 }
 
-// Hero Slideshow
-const heroSlideshow = document.getElementById('heroSlideshow');
-if (heroSlideshow) {
-  const slides = heroSlideshow.querySelectorAll('.slide');
-  let currentSlide = 0;
-  
-  function showSlide(index) {
-    slides.forEach((slide, i) => {
-      slide.classList.remove('active');
-      if (i === index) {
-        slide.classList.add('active');
-      }
-    });
-  }
-  
-  function nextSlide() {
-    currentSlide = (currentSlide + 1) % slides.length;
-    showSlide(currentSlide);
-  }
-  
-  // Start slideshow
-  showSlide(0);
-  setInterval(nextSlide, 5000); // Change slide every 5 seconds
-}
-
 // Lightbox Functionality
 const lightbox = document.getElementById('lightbox');
 const lightboxContent = document.getElementById('lightboxContent');
@@ -214,13 +189,13 @@ function nextItem() {
 // Initialize lightbox if elements exist
 if (lightbox && lightboxContent) {
   // Collect all clickable items
-  const clickableItems = document.querySelectorAll('.video, .thumb-card, .covers-card');
+  const clickableItems = document.querySelectorAll('.video');
   
   clickableItems.forEach(item => {
     item.addEventListener('click', () => {
       // Get all items in the same section
       const section = item.closest('section');
-      const items = section.querySelectorAll('.video, .thumb-card, .covers-card');
+      const items = section.querySelectorAll('.video');
       const itemArray = Array.from(items);
       const index = itemArray.indexOf(item);
       
@@ -304,15 +279,6 @@ window.addEventListener('resize', function() {
     });
   }
 });
-// (Old project form handler removed - replaced by updated handler below)
-
-// Update contact method selection — no client input for business contact
-function updateContactFields() {
-  // The form no longer asks clients to input the business WhatsApp or email.
-  // Selecting a method simply decides which business channel we'll open on submit.
-  return;
-}
-
 // Project Submission Form Handler - UPDATED
 const projectForm = document.getElementById('projectForm');
 if (projectForm) {
@@ -372,72 +338,51 @@ const hideShow = document.querySelector(".hide-show");
 let expanded = false;
 const mediaQuery = window.matchMedia("(max-width: 992px)");
 
-function applyToggleLogic() {
-  if (!mediaQuery.matches) {
-    // 🔹 Desktop → show all videos & hide button
-    shortVideos.forEach(video => {
-      video.style.display = "block";
+if (shortVideos.length && seeMoreBtn && upDownICon && hideShow) {
+  function applyToggleLogic() {
+    if (!mediaQuery.matches) {
+      // Desktop: show all videos & hide toggle button
+      shortVideos.forEach(video => {
+        video.style.display = "block";
+      });
+      seeMoreBtn.style.display = "none";
+      return;
+    }
+
+    // Mobile/Tablet: show first 3 videos by default
+    seeMoreBtn.style.display = "flex";
+    shortVideos.forEach((video, index) => {
+      video.style.display = index < 3 ? "block" : "none";
     });
-    seeMoreBtn.style.display = "none";
-    return;
+
+    expanded = false;
+    hideShow.textContent = "See More";
+    upDownICon.classList.remove("fa-caret-up");
+    upDownICon.classList.add("fa-caret-down");
   }
 
-  // 🔹 Mobile / Tablet → show only first 3
-  seeMoreBtn.style.display = "flex";
+  // Initial run
+  applyToggleLogic();
 
-  shortVideos.forEach((video, index) => {
-    video.style.display = index < 3 ? "block" : "none";
+  // Toggle button click
+  seeMoreBtn.addEventListener("click", () => {
+    if (!mediaQuery.matches) return;
+
+    expanded = !expanded;
+
+    shortVideos.forEach((video, index) => {
+      video.style.display = expanded || index < 3 ? "block" : "none";
+    });
+
+    hideShow.textContent = expanded ? "See Less" : "See More";
+
+    if (expanded) {
+      upDownICon.classList.replace("fa-caret-down", "fa-caret-up");
+    } else {
+      upDownICon.classList.replace("fa-caret-up", "fa-caret-down");
+    }
   });
 
-  expanded = false;
-  hideShow.textContent = "See More";
-  upDownICon.classList.remove("fa-caret-up");
-  upDownICon.classList.add("fa-caret-down");
+  // Re-check on viewport change
+  mediaQuery.addEventListener("change", applyToggleLogic);
 }
-
-// initial run
-applyToggleLogic();
-
-// button click
-seeMoreBtn.addEventListener("click", () => {
-  if (!mediaQuery.matches) return;
-
-  expanded = !expanded;
-
-  shortVideos.forEach((video, index) => {
-    video.style.display = expanded || index < 3 ? "block" : "none";
-  });
-
-  hideShow.textContent = expanded ? "See Less" : "See More";
-
-  if (expanded) {
-    upDownICon.classList.replace("fa-caret-down", "fa-caret-up");
-  } else {
-    upDownICon.classList.replace("fa-caret-up", "fa-caret-down");
-  }
-});
-
-// re-check on resize
-mediaQuery.addEventListener("change", applyToggleLogic);
-
-// IntersectionObserver short video 1
-const observer = new IntersectionObserver(
-  (entries) => {
-    entries.forEach(entry => {
-      const video = entry.target;
-
-      if (entry.isIntersecting) {
-        video.play();
-      } else {
-        video.pause();
-        video.currentTime = 0; // optional: reset
-      }
-    });
-  },
-  {
-    threshold: 0.4 // 60% visible hone par play
-  }
-);
-
-// start observing (index = 0 by default)
-shortVideos.forEach(video => observer.observe(video));
