@@ -243,9 +243,34 @@ function checkScroll() {
   });
 }
 
-// Initialize scroll animation
-window.addEventListener('scroll', checkScroll);
-window.addEventListener('load', checkScroll);
+// Initialize scroll animation after full page load to avoid forced-layout warnings
+let scrollTicking = false;
+let scrollAnimationInitialized = false;
+
+function onScrollCheck() {
+  if (scrollTicking) return;
+  scrollTicking = true;
+
+  requestAnimationFrame(() => {
+    checkScroll();
+    scrollTicking = false;
+  });
+}
+
+function initScrollAnimation() {
+  if (scrollAnimationInitialized) return;
+  scrollAnimationInitialized = true;
+
+  requestAnimationFrame(checkScroll);
+  window.addEventListener('scroll', onScrollCheck, { passive: true });
+}
+
+window.addEventListener('load', initScrollAnimation);
+
+// If page is already fully loaded (e.g. bfcache), initialize immediately.
+if (document.readyState === 'complete') {
+  initScrollAnimation();
+}
 
 // Smooth scrolling for anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
