@@ -438,7 +438,7 @@
     #videos .gallery, #full-videos .gallery{
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-
+      justify-content: center;
       gap: 2rem;
       margin-top: 2rem;
     }
@@ -1078,6 +1078,16 @@
       #videos .gallery {
         align-items: center;
       }
+
+      #full-videos .gallery {
+        justify-items: center;
+      }
+
+      #full-videos .video {
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+      }
       
       .video {
         max-width: 220px;
@@ -1164,6 +1174,10 @@
 
       .video {
         max-width: 100%;
+      }
+
+      #full-videos .gallery {
+        justify-items: center;
       }
 
       #sotware-i-use .tools {
